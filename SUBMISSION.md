@@ -1,6 +1,6 @@
 # Submission Checklist - AdAstraa AI ML + Django Challenge
 
-## 📧 Submission Details
+## Submission Details
 
 **Email To:** mayur@adastraa.ai  
 **Subject Line:** AdAstraa AI – 24h ML + Django Challenge – Aaron Sequeira  
@@ -8,15 +8,15 @@
 
 ---
 
-## ✅ Deliverables Checklist
+## Deliverables Checklist
 
-### 📚 Documentation
+### Documentation
 
 - [x] **README.md** - Comprehensive project overview
   - Problem statement and dataset description
   - Data cleaning and preprocessing approach
   - Machine learning strategy and model selection
-  - Setup instructions (step-by-step)
+  - Step-by-step setup instructions
   - Assumptions and limitations
   - Future improvements and production scaling
 
@@ -29,7 +29,7 @@
 
 - [x] **requirements.txt** - All Python dependencies
 
-### 🤖 Machine Learning Components
+### Machine Learning Components
 
 - [x] **Data Preprocessing Pipeline** (`ml_models/data_preprocessing.py`)
   - Multi-format date parsing
@@ -46,11 +46,11 @@
     - Gradient Boosting
     - XGBoost
     - LightGBM
-  - Cross-validation (5-fold)
+  - 5-fold cross-validation
   - Performance metrics (R², RMSE, MAE)
   - Model persistence with joblib
 
-### 🌐 Django Web Application
+### Django Web Application
 
 - [x] **Django Project Structure**
   - `ml_prediction/` - Project configuration
@@ -74,7 +74,7 @@
   - About page with project information
   - Error messages and user feedback
 
-### 🛠️ Code Quality
+### Code Quality
 
 - [x] **Clean Code Structure**
   - Modular and organized
@@ -89,7 +89,7 @@
 
 ---
 
-## 📝 Data Cleaning Approach Summary
+## Data Cleaning Approach Summary
 
 ### 1. Date Standardization
 - Handled multiple date formats (YYYY/MM/DD, DD-MM-YY, etc.)
@@ -126,7 +126,7 @@
 
 ---
 
-## 🤖 Model Selection Rationale
+## Model Selection Rationale
 
 ### Algorithms Evaluated
 1. **Linear Regression** - Baseline model
@@ -146,7 +146,7 @@ The best performing model is automatically selected and saved based on test R² 
 
 ---
 
-## 🚀 How to Run the Application
+## How to Run the Application
 
 ### Quick Start
 ```bash
@@ -179,7 +179,7 @@ For detailed instructions, see [SETUP_GUIDE.md](SETUP_GUIDE.md)
 
 ---
 
-## 📊 Expected Functionality
+## Expected Functionality
 
 ### Upload Flow
 1. User uploads test.csv (without Sale_Amount)
@@ -213,7 +213,7 @@ Original CSV + `Predicted_Sale_Amount` column
 
 ---
 
-## 🔮 Assumptions and Limitations
+## Assumptions and Limitations
 
 ### Assumptions
 1. Test data follows similar distribution as training data
@@ -230,7 +230,7 @@ Original CSV + `Predicted_Sale_Amount` column
 
 ---
 
-## 🔧 Future Improvements
+## Future Improvements
 
 ### With More Time
 1. **Model Enhancements**
@@ -261,7 +261,7 @@ Original CSV + `Predicted_Sale_Amount` column
 
 ---
 
-## 📞 Contact Information
+## Contact Information
 
 **Aaron Sequeira**  
 Email: aaronsequeira12@gmail.com  
@@ -270,7 +270,7 @@ LinkedIn: [Aaron Sequeira](https://www.linkedin.com/in/aaron-sequeira)
 
 ---
 
-## 🚀 Submission Confirmation
+## Submission Confirmation
 
 **Repository URL:** https://github.com/aaron-seq/adastraa-ml-django-challenge  
 **Submitted By:** Aaron Sequeira  
@@ -280,4 +280,4 @@ LinkedIn: [Aaron Sequeira](https://www.linkedin.com/in/aaron-sequeira)
 
 ---
 
-**Thank you for the opportunity!** I've enjoyed working on this real-world ML challenge and look forward to discussing the solution.
+Thank you for the opportunity. I look forward to discussing this solution and the technical approach taken.
