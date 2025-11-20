@@ -1,17 +1,17 @@
 # Setup Guide - AdAstraa AI ML + Django Challenge
 
-This guide will walk you through setting up and running the Django application locally.
+This guide provides step-by-step instructions for setting up and running the Django application locally.
 
-## 📦 Prerequisites
+## Prerequisites
 
-Before you begin, ensure you have the following installed:
+Ensure you have the following installed:
 
-- **Python 3.8 or higher** - [Download Python](https://www.python.org/downloads/)
-- **Git** - [Download Git](https://git-scm.com/downloads/)
-- **pip** (usually comes with Python)
-- **virtualenv** (recommended) - Install with: `pip install virtualenv`
+- Python 3.8 or higher - [Download](https://www.python.org/downloads/)
+- Git - [Download](https://git-scm.com/downloads/)
+- pip (included with Python)
+- virtualenv (recommended) - Install with: `pip install virtualenv`
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Step 1: Clone the Repository
 
@@ -22,19 +22,19 @@ cd adastraa-ml-django-challenge
 
 ### Step 2: Create and Activate Virtual Environment
 
-**On Windows:**
+**Windows:**
 ```bash
 python -m venv venv
 venv\Scripts\activate
 ```
 
-**On macOS/Linux:**
+**macOS/Linux:**
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-You should see `(venv)` in your terminal prompt, indicating the virtual environment is active.
+You should see `(venv)` in your terminal prompt.
 
 ### Step 3: Install Dependencies
 
@@ -42,24 +42,24 @@ You should see `(venv)` in your terminal prompt, indicating the virtual environm
 pip install -r requirements.txt
 ```
 
-This will install all required packages including:
+This installs:
 - Django 4.2.7
 - scikit-learn, XGBoost, LightGBM
 - pandas, numpy
-- And other dependencies
+- Other required packages
 
 ### Step 4: Download the Dataset
 
-1. Download the training dataset from the Google Drive link provided in the challenge email
+1. Download the training dataset from the Google Drive link in the challenge email
 2. Place the CSV file in the `data/` directory
 3. Rename it to `train_data.csv`
 
-Your directory structure should look like:
+Expected directory structure:
 ```
 adastraa-ml-django-challenge/
 ├── data/
 │   ├── .gitkeep
-│   └── train_data.csv  # <-- Place your dataset here
+│   └── train_data.csv
 ├── ml_models/
 ├── predictor/
 ...
@@ -71,21 +71,21 @@ adastraa-ml-django-challenge/
 python ml_models/train_model.py
 ```
 
-This will:
-- Load and preprocess the training data
-- Train multiple ML models (Linear Regression, Random Forest, XGBoost, LightGBM, Gradient Boosting)
-- Evaluate each model using cross-validation
-- Select the best performing model
-- Save the model and preprocessing artifacts to `ml_models/` directory
+This process:
+- Loads and preprocesses the training data
+- Trains multiple ML models (Linear Regression, Random Forest, XGBoost, LightGBM, Gradient Boosting)
+- Evaluates models using cross-validation
+- Selects the best performer
+- Saves model and preprocessing artifacts to `ml_models/`
 
-**Expected output files:**
+**Output files:**
 - `ml_models/model.pkl` - Trained model
 - `ml_models/preprocessor.pkl` - Data preprocessor
 - `ml_models/label_encoders.pkl` - Categorical encoders
 - `ml_models/scaler.pkl` - Feature scaler
 - `ml_models/feature_columns.pkl` - Feature column names
 
-**Note:** Training may take 5-15 minutes depending on your system and dataset size.
+**Note:** Training may take 5-15 minutes depending on system specifications and dataset size.
 
 ### Step 6: Run Database Migrations
 
@@ -97,11 +97,13 @@ This creates the SQLite database and necessary tables.
 
 ### Step 7: Create Media and Static Directories
 
+**Windows:**
 ```bash
-# On Windows
 mkdir media uploads results static
+```
 
-# On macOS/Linux
+**macOS/Linux:**
+```bash
 mkdir -p media/uploads media/results static
 ```
 
@@ -117,7 +119,7 @@ python manage.py collectstatic --noinput
 python manage.py runserver
 ```
 
-You should see output like:
+Expected output:
 ```
 Starting development server at http://127.0.0.1:8000/
 Quit the server with CTRL-BREAK.
@@ -125,20 +127,20 @@ Quit the server with CTRL-BREAK.
 
 ### Step 10: Access the Application
 
-Open your web browser and navigate to:
+Open your browser and navigate to:
 ```
 http://localhost:8000
 ```
 
-You should see the home page with the file upload interface!
+You should see the home page with the file upload interface.
 
-## 📝 Usage Instructions
+## Usage Instructions
 
 ### Uploading Test Data
 
-1. **Navigate to Home Page**: Go to `http://localhost:8000`
+1. **Navigate to Home Page**: `http://localhost:8000`
 
-2. **Prepare Test CSV**: Your test CSV file should have these columns (without `Sale_Amount`):
+2. **Prepare Test CSV**: File should contain these columns (without Sale_Amount):
    - Ad_ID
    - Campaign_Name
    - Clicks
@@ -157,13 +159,13 @@ You should see the home page with the file upload interface!
    - Click "Generate Predictions"
 
 4. **View Results**:
-   - Preview the first 10 rows with predictions
+   - Preview first 10 rows with predictions
    - See summary statistics
-   - Download the complete CSV with `Predicted_Sale_Amount` column
+   - Download complete CSV with `Predicted_Sale_Amount` column
 
 ### Creating Test Data
 
-If you need to create test data from the training set:
+To create test data from the training set:
 
 ```python
 import pandas as pd
@@ -178,18 +180,18 @@ test_df = df.drop(columns=['Sale_Amount'])
 test_df.head(100).to_csv('data/test_data.csv', index=False)
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
-### Issue: "Module not found" errors
+### "Module not found" errors
 
 **Solution:**
 ```bash
-# Make sure virtual environment is activated
+# Ensure virtual environment is activated
 # Reinstall dependencies
 pip install -r requirements.txt --force-reinstall
 ```
 
-### Issue: "Model file not found"
+### "Model file not found"
 
 **Solution:**
 ```bash
@@ -197,7 +199,7 @@ pip install -r requirements.txt --force-reinstall
 python ml_models/train_model.py
 ```
 
-### Issue: Port 8000 already in use
+### Port 8000 already in use
 
 **Solution:**
 ```bash
@@ -205,65 +207,63 @@ python ml_models/train_model.py
 python manage.py runserver 8080
 ```
 
-### Issue: Database errors
+### Database errors
 
 **Solution:**
 ```bash
 # Delete database and recreate
-del db.sqlite3  # On Windows
-rm db.sqlite3   # On macOS/Linux
+del db.sqlite3  # Windows
+rm db.sqlite3   # macOS/Linux
 
 # Run migrations again
 python manage.py migrate
 ```
 
-### Issue: Static files not loading
+### Static files not loading
 
 **Solution:**
 ```bash
 # Collect static files
 python manage.py collectstatic --noinput
 
-# Make sure DEBUG=True in settings.py for development
+# Verify DEBUG=True in settings.py for development
 ```
 
-## 🛠️ Development Tips
+## Development Tips
 
-### Running in Debug Mode
+### Debug Mode
 
-The application runs in debug mode by default. To see detailed error messages:
-- Check the console where you ran `python manage.py runserver`
-- Error details will be displayed in the browser
+The application runs in debug mode by default. Error details appear in:
+- Console where you ran `python manage.py runserver`
+- Browser (when DEBUG=True)
 
-### Viewing Database
+### Database Exploration
 
-To explore the database:
-
+Command line:
 ```bash
 python manage.py dbshell
 ```
 
-Or use a GUI tool like [DB Browser for SQLite](https://sqlitebrowser.org/)
+GUI tool: [DB Browser for SQLite](https://sqlitebrowser.org/)
 
-### Creating Superuser (Admin Access)
+### Admin Access
 
+Create superuser:
 ```bash
 python manage.py createsuperuser
 ```
 
-Then access admin at: `http://localhost:8000/admin`
+Access admin interface: `http://localhost:8000/admin`
 
 ### Running Tests
-
-Create and run tests:
 
 ```bash
 python manage.py test
 ```
 
-## 📊 Model Performance
+## Model Performance
 
-After training, you'll see performance metrics like:
+After training, performance metrics are displayed:
 
 ```
 Model: XGBoost
@@ -278,15 +278,12 @@ Cross-Val R² Score: 0.8845 (+/- 0.0234)
 ============================================================
 ```
 
-## 🚀 Deployment (Optional)
-
-For production deployment, consider:
+## Deployment (Optional)
 
 ### Heroku
 
 ```bash
-# Install Heroku CLI
-# Login to Heroku
+# Install Heroku CLI and login
 heroku login
 
 # Create app
@@ -302,7 +299,7 @@ git push heroku main
 ### Railway
 
 1. Push code to GitHub
-2. Connect Railway to your repository
+2. Connect Railway to repository
 3. Add environment variables
 4. Deploy automatically
 
@@ -310,12 +307,12 @@ git push heroku main
 
 1. Create new Web Service
 2. Connect GitHub repository
-3. Set build command: `pip install -r requirements.txt`
-4. Set start command: `gunicorn ml_prediction.wsgi:application`
+3. Build command: `pip install -r requirements.txt`
+4. Start command: `gunicorn ml_prediction.wsgi:application`
 
-## 📝 Environment Variables (Production)
+## Environment Variables (Production)
 
-For production, create a `.env` file:
+Create a `.env` file:
 
 ```env
 SECRET_KEY=your-secret-key-here
@@ -323,7 +320,7 @@ DEBUG=False
 ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com
 ```
 
-Update `settings.py` to use these variables:
+Update `settings.py`:
 
 ```python
 import os
@@ -336,26 +333,24 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 ```
 
-## ❓ Getting Help
+## Getting Help
 
 If you encounter issues:
 
-1. Check this setup guide
-2. Review error messages carefully
-3. Check Django logs in the console
-4. Review the code in `predictor/views.py` for debugging
+1. Review this setup guide
+2. Check error messages in console
+3. Verify Django logs
+4. Examine code in `predictor/views.py` for debugging
 
-## 🎯 Next Steps
+## Next Steps
 
-1. ✅ Complete setup following this guide
-2. ✅ Train the model with your data
-3. ✅ Test the upload and prediction functionality
-4. ✅ Review the code and documentation
-5. ✅ (Optional) Deploy to a cloud platform
-6. ✅ Submit your GitHub repository link
+1. Complete setup following this guide
+2. Train the model with your data
+3. Test upload and prediction functionality
+4. Review code and documentation
+5. (Optional) Deploy to cloud platform
+6. Submit GitHub repository link
 
 ---
-
-**Good luck with the challenge!** 🚀
 
 For questions or issues, contact: aaronsequeira12@gmail.com
