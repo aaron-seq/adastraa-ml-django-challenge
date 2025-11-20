@@ -1,0 +1,113 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}About - ML Prediction App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2 class="mb-0"><i class="fas fa-info-circle"></i> About This Project</h2>
+            </div>
+            <div class="card-body p-5">
+                <h3><i class="fas fa-bullseye"></i> Project Overview</h3>
+                <p>This is a Django web application built as part of the AdAstraa AI technical challenge. 
+                The application predicts <strong>Sale_Amount</strong> from marketing campaign data using machine learning.</p>
+
+                <hr>
+
+                <h3><i class="fas fa-brain"></i> Machine Learning Approach</h3>
+                <p>The system evaluates multiple regression algorithms to find the best model:</p>
+                <ul>
+                    {% for algo in model_info.algorithms %}
+                    <li><i class="fas fa-check-circle text-success"></i> {{ algo }}</li>
+                    {% endfor %}
+                </ul>
+
+                <hr>
+
+                <h3><i class="fas fa-chart-line"></i> Evaluation Metrics</h3>
+                <div class="row">
+                    {% for metric in model_info.metrics %}
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <i class="fas fa-calculator fa-2x text-primary mb-2"></i>
+                                <h5>{{ metric }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <hr>
+
+                <h3><i class="fas fa-cogs"></i> Feature Engineering</h3>
+                <p>The model uses advanced feature engineering techniques:</p>
+                <div class="row">
+                    {% for feature in model_info.features %}
+                    <div class="col-md-6">
+                        <p><i class="fas fa-arrow-right text-primary"></i> {{ feature }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <hr>
+
+                <h3><i class="fas fa-broom"></i> Data Preprocessing</h3>
+                <p>The application handles real-world data challenges:</p>
+                <ul>
+                    <li><i class="fas fa-calendar-alt text-info"></i> <strong>Date Parsing:</strong> Multiple date formats (YYYY/MM/DD, DD-MM-YY, etc.)</li>
+                    <li><i class="fas fa-spell-check text-info"></i> <strong>Fuzzy Matching:</strong> Corrects typos in campaign names, locations, and keywords</li>
+                    <li><i class="fas fa-eraser text-info"></i> <strong>Missing Values:</strong> Intelligent imputation strategies</li>
+                    <li><i class="fas fa-copy text-info"></i> <strong>Duplicates:</strong> Automatic detection and removal</li>
+                    <li><i class="fas fa-chart-bar text-info"></i> <strong>Outliers:</strong> IQR-based outlier treatment</li>
+                </ul>
+
+                <hr>
+
+                <h3><i class="fas fa-code"></i> Tech Stack</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Backend</h5>
+                        <ul>
+                            <li>Django 4.2</li>
+                            <li>Python 3.8+</li>
+                            <li>scikit-learn</li>
+                            <li>XGBoost / LightGBM</li>
+                            <li>pandas / numpy</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Frontend</h5>
+                        <ul>
+                            <li>Bootstrap 5</li>
+                            <li>Font Awesome Icons</li>
+                            <li>Responsive Design</li>
+                            <li>Modern UI/UX</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <hr>
+
+                <h3><i class="fas fa-user"></i> Developer</h3>
+                <p><strong>Aaron Sequeira</strong></p>
+                <p>
+                    <i class="fab fa-github"></i> <a href="https://github.com/aaron-seq" target="_blank">GitHub</a> | 
+                    <i class="fas fa-envelope"></i> aaronsequeira12@gmail.com
+                </p>
+
+                <div class="text-center mt-4">
+                    <a href="https://github.com/aaron-seq/adastraa-ml-django-challenge" target="_blank" class="btn btn-primary">
+                        <i class="fab fa-github"></i> View on GitHub
+                    </a>
+                    <a href="{% url 'home' %}" class="btn btn-success">
+                        <i class="fas fa-upload"></i> Try the App
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

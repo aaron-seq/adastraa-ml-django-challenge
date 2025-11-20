@@ -1,0 +1,66 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}Results - ML Prediction App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2 class="mb-0"><i class="fas fa-check-circle"></i> Predictions Generated!</h2>
+                <p class="mb-0 mt-2">Successfully predicted Sale_Amount for {{ num_predictions }} rows</p>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-success">
+                    <i class="fas fa-info-circle"></i> <strong>Success!</strong> Your predictions are ready. 
+                    You can preview them below or download the complete CSV file.
+                </div>
+
+                <div class="text-center mb-4">
+                    <a href="{% url 'download' %}" class="btn btn-success btn-lg">
+                        <i class="fas fa-download"></i> Download Predictions CSV
+                    </a>
+                    <a href="{% url 'home' %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-upload"></i> Upload Another File
+                    </a>
+                </div>
+
+                <h4 class="mb-3"><i class="fas fa-table"></i> Preview (First 10 Rows)</h4>
+                <div class="table-responsive">
+                    {{ preview_data|safe }}
+                </div>
+
+                <div class="mt-4">
+                    <h5><i class="fas fa-chart-bar"></i> Summary Statistics</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body text-center">
+                                    <h3>{{ num_predictions }}</h3>
+                                    <p class="mb-0">Total Predictions</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-success text-white">
+                                <div class="card-body text-center">
+                                    <h3>{{ columns|length }}</h3>
+                                    <p class="mb-0">Columns in Output</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-info text-white">
+                                <div class="card-body text-center">
+                                    <h3><i class="fas fa-check"></i></h3>
+                                    <p class="mb-0">Ready to Download</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
