@@ -1,18 +1,18 @@
 # AdAstraa AI - ML + Django Challenge
 
-## 📋 Project Overview
+## Project Overview
 
-This project is a 24-hour technical challenge for the Machine Learning Engineer (Full Stack) role at AdAstraa AI. The goal is to build a Django web application that predicts `Sale_Amount` from messy marketing campaign data.
+This project is a 24-hour technical challenge for the Machine Learning Engineer (Full Stack) role at AdAstraa AI. The goal is to build a Django web application that predicts Sale_Amount from messy marketing campaign data.
 
-## 🎯 Problem Statement
+## Problem Statement
 
 Build a Django web application that:
-- Trains a machine learning model to predict `Sale_Amount` using provided dataset
+- Trains a machine learning model to predict Sale_Amount using the provided dataset
 - Hosts the trained model inside the Django backend
-- Allows users to upload a `test.csv` file (without `Sale_Amount` column)
-- Generates predictions and provides a downloadable CSV with `Predicted_Sale_Amount` column
+- Allows users to upload a test.csv file (without Sale_Amount column)
+- Generates predictions and provides a downloadable CSV with Predicted_Sale_Amount column
 
-## 📊 Dataset Overview
+## Dataset Overview
 
 The dataset contains raw and intentionally messy marketing campaign data with the following columns:
 
@@ -30,7 +30,7 @@ The dataset contains raw and intentionally messy marketing campaign data with th
 - **Device**: Mobile/Desktop/Tablet (mixed casing)
 - **Keyword**: Trigger keyword (contains typos)
 
-### ⚠️ Data Quality Issues (Intentional)
+### Data Quality Issues (Intentional)
 
 The dataset simulates real-world advertising data with:
 - Inconsistent date formats
@@ -39,28 +39,23 @@ The dataset simulates real-world advertising data with:
 - Inconsistent casing in categorical fields
 - Incorrect Conversion Rate values
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Backend**: Django 4.x
-- **ML Libraries**: scikit-learn, pandas, numpy
+- **ML Libraries**: scikit-learn, XGBoost, LightGBM
 - **Data Processing**: pandas, numpy
-- **Model**: (To be determined based on performance)
-- **Database**: SQLite (default Django)
+- **Database**: SQLite (development), PostgreSQL (production-ready)
+- **Frontend**: Bootstrap 5, vanilla JavaScript
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 adastraa-ml-django-challenge/
 ├── ml_prediction/           # Django project
-│   ├── __init__.py
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
 ├── predictor/               # Django app for predictions
-│   ├── migrations/
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
 │   ├── models.py
 │   ├── views.py
 │   ├── urls.py
@@ -71,268 +66,225 @@ adastraa-ml-django-challenge/
 │   ├── model.pkl
 │   └── preprocessor.pkl
 ├── data/                    # Dataset files
-│   ├── train_data.csv
-│   └── test_data.csv (example)
+│   └── train_data.csv
 ├── requirements.txt
 ├── manage.py
 └── README.md
 ```
 
-## 🔧 Setup Instructions
+## Setup Instructions
 
 ### Prerequisites
 
-- Python 3.8+
-- pip
-- virtualenv (recommended)
+- Python 3.8 or higher
+- pip and virtualenv
 
-### Installation Steps
+### Installation
 
-1. **Clone the repository**
+1. Clone the repository:
    ```bash
    git clone https://github.com/aaron-seq/adastraa-ml-django-challenge.git
    cd adastraa-ml-django-challenge
    ```
 
-2. **Create a virtual environment**
+2. Create and activate virtual environment:
    ```bash
    python -m venv venv
-   
-   # On Windows
-   venv\Scripts\activate
-   
-   # On macOS/Linux
-   source venv/bin/activate
+   venv\Scripts\activate  # Windows
+   source venv/bin/activate  # macOS/Linux
    ```
 
-3. **Install dependencies**
+3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Train the model** (if not already trained)
+4. Place the training dataset in `data/train_data.csv`
+
+5. Train the model:
    ```bash
    python ml_models/train_model.py
    ```
 
-5. **Run database migrations**
+6. Run database migrations:
    ```bash
    python manage.py migrate
    ```
 
-6. **Start the Django development server**
+7. Start the development server:
    ```bash
    python manage.py runserver
    ```
 
-7. **Access the application**
-   - Open your browser and navigate to `http://localhost:8000`
+8. Access the application at `http://localhost:8000`
 
-## 🧹 Data Cleaning & Preprocessing Approach
+For detailed setup instructions and troubleshooting, see [SETUP_GUIDE.md](SETUP_GUIDE.md).
 
-### 1. Date Standardization
-- Parse mixed date formats (YYYY/MM/DD, DD-MM-YY, etc.) into a standard datetime format
-- Extract temporal features: day_of_week, month, quarter, days_since_epoch
+## Data Cleaning & Preprocessing
 
-### 2. Text Normalization
-- Convert all text fields to lowercase for consistency
-- Apply fuzzy matching to correct common typos in Campaign_Name, Location, and Keyword
+### Date Standardization
+- Parse multiple date formats (YYYY/MM/DD, DD-MM-YY, etc.) into standard datetime
+- Extract temporal features: day_of_week, month, quarter, days_since_start
+
+### Text Normalization
+- Lowercase conversion for all text fields
+- Fuzzy matching to correct typos in Campaign_Name, Location, and Keyword
 - Standardize categorical values (Device: mobile/desktop/tablet)
 
-### 3. Missing Value Handling
-- Identify missing values across all columns
-- Use appropriate imputation strategies:
-  - Numeric: median/mean imputation
-  - Categorical: mode imputation or 'unknown' category
+### Missing Value Handling
+- Numeric columns: median imputation
+- Categorical columns: mode imputation or 'unknown' category
 
-### 4. Duplicate Detection
-- Identify and remove duplicate rows based on Ad_ID or combination of features
+### Duplicate Removal
+- Remove exact duplicates
+- Deduplicate based on Ad_ID
 
-### 5. Feature Engineering
-- Calculate correct Conversion Rate: Conversions / Clicks
-- Create derived features:
-  - CTR (Click-Through Rate): Clicks / Impressions
-  - CPL (Cost Per Lead): Cost / Leads
-  - CPC (Cost Per Click): Cost / Clicks
-  - ROI: (Sale_Amount - Cost) / Cost
+### Feature Engineering
+- Click-Through Rate (CTR): Clicks / Impressions
+- Cost Per Click (CPC): Cost / Clicks
+- Cost Per Lead (CPL): Cost / Leads
+- Corrected Conversion Rate: Conversions / Clicks
+- Lead-to-Conversion Rate: Conversions / Leads
+- Cost Per Conversion: Cost / Conversions
+- Engagement Score: composite metric combining CTR and conversion rate
 
-### 6. Outlier Treatment
-- Identify outliers using IQR method or Z-score
-- Handle outliers through capping, transformation, or removal
+### Outlier Treatment
+- IQR method for outlier detection
+- Capping extreme values to maintain data integrity
 
-### 7. Encoding
-- Label Encoding for ordinal categorical variables
-- One-Hot Encoding for nominal categorical variables
-- Feature scaling for numeric variables
+### Encoding and Scaling
+- Label encoding for categorical variables
+- Standard scaling for numeric features
 
-## 🤖 Machine Learning Approach
+## Machine Learning Approach
 
-### Model Selection Strategy
+### Models Evaluated
 
-Will evaluate multiple regression algorithms:
+1. Linear Regression (baseline)
+2. Random Forest Regressor
+3. Gradient Boosting Regressor
+4. XGBoost
+5. LightGBM
 
-1. **Linear Regression** (Baseline)
-2. **Random Forest Regressor**
-3. **XGBoost**
-4. **LightGBM**
-5. **Gradient Boosting Regressor**
+### Evaluation Metrics
 
-### Model Evaluation Metrics
+- R² Score (coefficient of determination)
+- RMSE (Root Mean Squared Error)
+- MAE (Mean Absolute Error)
 
-- **R² Score**: Coefficient of determination
-- **RMSE**: Root Mean Squared Error
-- **MAE**: Mean Absolute Error
-- **MAPE**: Mean Absolute Percentage Error
-
-### Cross-Validation
+### Validation Strategy
 
 - 5-fold cross-validation for robust performance estimation
-- Train-test split: 80-20
+- 80-20 train-test split
+- Best model selected based on test R² score
 
-### Feature Importance Analysis
+### Model Selection Rationale
 
-- Analyze feature importance to understand key predictors
-- Document insights for business interpretation
+The training script evaluates all models using cross-validation and selects the best performer based on test set R² score. Tree-based ensemble methods (Random Forest, XGBoost, LightGBM) typically perform well on this type of tabular data with mixed feature types.
 
-## 🌐 Django Application Features
+## Django Application Features
 
 ### Core Functionality
 
-1. **File Upload Interface**
-   - Clean, user-friendly upload form
-   - Validation for CSV format
-   - Error handling for invalid files
+1. **File Upload**: User-friendly interface for CSV upload with drag-and-drop support
+2. **Validation**: Checks for required columns and CSV format
+3. **Preprocessing**: Applies the same preprocessing pipeline used during training
+4. **Prediction**: Generates Sale_Amount predictions using the trained model
+5. **Download**: Provides downloadable CSV with all original columns plus Predicted_Sale_Amount
+6. **Error Handling**: Comprehensive error messages and validation feedback
 
-2. **Data Processing Pipeline**
-   - Apply same preprocessing as training
-   - Handle edge cases gracefully
+### User Interface
 
-3. **Prediction Generation**
-   - Load pre-trained model
-   - Generate predictions for uploaded data
-   - Add `Predicted_Sale_Amount` column
+- Responsive design with Bootstrap 5
+- Clean, modern aesthetics
+- Interactive upload area with visual feedback
+- Results preview with summary statistics
+- About page documenting the technical approach
 
-4. **Download Results**
-   - Generate downloadable CSV with predictions
-   - Preserve all original columns
+## Deliverables
 
-### Optional Features (if time permits)
+- Public GitHub repository with complete source code
+- Working Django web application
+- Trained ML model with preprocessing pipeline
+- Comprehensive documentation (README, SETUP_GUIDE, SUBMISSION)
+- requirements.txt with all dependencies
+- Detailed explanation of data cleaning and modeling approach
 
-- Basic data visualization dashboard
-- Feature importance charts
-- Model performance metrics display
-- Prediction confidence intervals
+## Future Improvements
 
-## 📦 Deliverables
+### Model Enhancements
+- Hyperparameter tuning using GridSearchCV or Bayesian optimization
+- Ensemble methods (stacking, blending)
+- Deep learning approaches for complex feature interactions
+- Automated feature selection
 
-- ✅ Public GitHub repository with complete code
-- ✅ Working Django application
-- ✅ Trained ML model with preprocessing pipeline
-- ✅ Comprehensive README with setup instructions
-- ✅ requirements.txt with all dependencies
-- ✅ Documentation of data cleaning approach
-- ✅ Documentation of modeling decisions
+### Production Scaling
 
-## 🚀 Deployment (Optional)
+**Architecture**:
+- Microservices architecture with separate model serving
+- Load balancing and auto-scaling
+- Asynchronous task processing with Celery
 
-If time permits, deploy to:
-- Heroku
-- Railway
-- Render
-- PythonAnywhere
+**Database**:
+- PostgreSQL for production
+- Redis for caching and session management
+- Connection pooling for performance
 
-## 🔮 Future Improvements
+**Model Management**:
+- MLflow for experiment tracking and model versioning
+- A/B testing framework
+- Automated retraining pipeline with drift detection
 
-### With More Time:
+**Monitoring**:
+- Model performance monitoring
+- Data drift detection
+- Real-time alerting and logging
 
-1. **Model Enhancements**
-   - Hyperparameter tuning using GridSearchCV/RandomizedSearchCV
-   - Ensemble methods combining multiple models
-   - Deep learning approaches (Neural Networks)
+**Security**:
+- API authentication and rate limiting
+- Input sanitization and validation
+- HTTPS and secure file handling
 
-2. **Feature Engineering**
-   - More sophisticated temporal features
-   - Interaction features between variables
-   - Text embeddings for campaign names and keywords
+**CI/CD**:
+- Automated testing pipeline
+- Docker containerization
+- Kubernetes orchestration
 
-3. **UI/UX**
-   - React/Vue.js frontend
-   - Real-time prediction progress tracking
-   - Interactive visualizations with Plotly/D3.js
+## Assumptions & Limitations
 
-4. **Error Handling**
-   - More robust validation
-   - Detailed error messages
-   - Logging system
+### Assumptions
 
-### Production Scaling:
+1. Test data follows similar distribution as training data
+2. Same data quality issues present in test data
+3. Feature relationships remain stable over time
+4. Missing values in test data can be imputed using training statistics
 
-1. **Architecture**
-   - Microservices architecture
-   - Separate model serving with TensorFlow Serving or FastAPI
-   - Load balancing and auto-scaling
+### Current Limitations
 
-2. **Database**
-   - PostgreSQL for production
-   - Redis for caching
-   - Database connection pooling
+1. Single model approach (no ensemble in v1)
+2. No real-time model retraining
+3. Limited handling of extreme outliers or novel categories
+4. SQLite database (not suitable for production scale)
+5. Synchronous request processing (may be slow for large files)
 
-3. **Model Management**
-   - MLflow for experiment tracking
-   - Model versioning and A/B testing
-   - Automated retraining pipeline
+## Author
 
-4. **Monitoring**
-   - Model performance monitoring
-   - Data drift detection
-   - Real-time alerting
+**Aaron Sequeira**  
+GitHub: [@aaron-seq](https://github.com/aaron-seq)  
+Email: aaronsequeira12@gmail.com
 
-5. **Security**
-   - API authentication and rate limiting
-   - Input sanitization
-   - HTTPS and secure file handling
+## License
 
-6. **CI/CD**
-   - Automated testing
-   - Docker containerization
-   - Kubernetes orchestration
+MIT License - see [LICENSE](LICENSE) file for details.
 
-## 📝 Assumptions & Limitations
+## Acknowledgments
 
-### Assumptions:
-
-1. All test data follows the same distribution as training data
-2. The same data quality issues exist in test data as training data
-3. Missing values in test data can be handled with same imputation strategy
-4. The relationship between features and target remains stable over time
-
-### Limitations:
-
-1. Model trained on limited dataset size
-2. No real-time model updates
-3. Limited error handling for extreme edge cases
-4. Single model approach (no ensemble in v1)
-5. Basic UI without advanced visualizations
-
-## 👨‍💻 Author
-
-**Aaron Sequeira**
-- GitHub: [@aaron-seq](https://github.com/aaron-seq)
-- Email: aaronsequeira12@gmail.com
-
-## 📄 License
-
-This project is created for the AdAstraa AI technical assessment.
-
-## 🙏 Acknowledgments
-
-- AdAstraa AI for the challenging problem statement
-- The eCommerce and digital marketing domain for real-world data scenarios
+This project was created for the AdAstraa AI technical assessment. Thanks to AdAstraa AI for the challenging and realistic problem statement.
 
 ---
 
-**Submission Details**
-- **Challenge**: AdAstraa AI – 24h ML + Django Challenge
-- **Role**: Machine Learning Engineer (Full Stack)
-- **Timeline**: 24 hours
-- **Contact**: mayur@adastraa.ai
+**Submission Details**  
+Challenge: AdAstraa AI – 24h ML + Django Challenge  
+Role: Machine Learning Engineer (Full Stack)  
+Timeline: 24 hours  
+Contact: mayur@adastraa.ai
