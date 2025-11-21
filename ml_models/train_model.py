@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import joblib
 import os
+import re
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.linear_model import LinearRegression
@@ -27,6 +28,20 @@ class ModelTrainer:
         self.best_model = None
         self.best_model_name = None
         self.feature_columns = None
+    
+    def clean_sale_amount(self, value):
+        """
+        Clean Sale_Amount column by removing $ and other non-numeric characters.
+        """
+        if pd.isna(value):
+            return np.nan
+        # Remove currency symbols, commas, spaces
+        value_str = str(value)
+        value_str = re.sub(r'[^0-9.]', '', value_str)
+        try:
+            return float(value_str)
+        except:
+            return np.nan
         
     def load_data(self, filepath):
         """
@@ -43,8 +58,9 @@ class ModelTrainer:
         """
         # Separate features and target
         if 'Sale_Amount' in df.columns:
+            # Clean Sale_Amount column
+            y = df['Sale_Amount'].apply(self.clean_sale_amount)
             X = df.drop(columns=['Sale_Amount', 'Ad_Date', 'Ad_ID'], errors='ignore')
-            y = df['Sale_Amount']
         else:
             X = df.drop(columns=['Ad_Date', 'Ad_ID'], errors='ignore')
             y = None
